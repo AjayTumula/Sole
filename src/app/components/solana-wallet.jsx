@@ -10,8 +10,7 @@ export function SolanaWallet({ mnemonic }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [publicKeys, setPublicKeys] = useState([]);
 
-    return <div>
-        <button onClick={function() {
+    const createSeed = () => {
             const seed = mnemonicToSeed(mnemonic);
             const path = `m/44'/501'/${currentIndex}'/0'`;
             const derivedSeed = derivePath(path, seed.toString("hex")).key;
@@ -19,7 +18,10 @@ export function SolanaWallet({ mnemonic }) {
             const keypair = Keypair.fromSecretKey(secret);
             setCurrentIndex(currentIndex + 1);
             setPublicKeys([...publicKeys, keypair.publicKey]);
-        }}>
+    }
+
+    return <div>
+        <button onClick={createSeed}>
             Add wallet
         </button>
         {publicKeys.map(p => <div>

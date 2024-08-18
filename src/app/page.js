@@ -5,10 +5,10 @@ import { EthWallet } from "./components/ethereum-wallet";
 
 export default function Home() {
   return (
-   <div>
+   <main>
       <Mnemonic /> 
       <SolanaWallet />
       <EthWallet />
-   </div>
+   </main>
   );
 }
