@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { mnemonicToSeed } from "bip39";
 import { Wallet, HDNodeWallet } from "ethers";
+import './ethereum-wallet.scss';
 
 export const EthWallet = ({mnemonic}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,8 +21,8 @@ export const EthWallet = ({mnemonic}) => {
     }
 
     return (
-        <div>
-            <button onClick={createSeed} className="items-center">
+        <div className="eth-section">
+            <button onClick={createSeed} className="eth-button">
                 Add ETH wallet
             </button>
 

@@ -22,7 +22,7 @@ export function SolanaWallet({ mnemonic }) {
 
     return <div>
         <button onClick={createSeed}>
-            Add wallet
+            Add Solana wallet
         </button>
         {publicKeys.map(p => <div>
             {p.toBase58()}
