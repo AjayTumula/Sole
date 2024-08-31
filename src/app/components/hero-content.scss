@@ -1,0 +1,33 @@
+
+
+div.wallet-hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .wallet-seed {
+        // border: 1px solid #919191;
+        margin: 10px 0px 10px 0px;
+        padding: 20px; 
+        height: 150px; 
+    }
+
+    .wallet-buttons {
+            width: 600px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around ;
+          margin:   0px 0px 0px 0px;
+          
+
+          .sol-wallet {
+           
+          }
+
+          .eth-wallet {
+           
+          }
+    }
+}
+

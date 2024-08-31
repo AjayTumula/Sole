@@ -7,6 +7,9 @@ import './ethereum-wallet.scss';
 export const EthWallet = ({mnemonic}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [addresses, setAddresses] = useState([]);
+    const [privateAddress, setPrivateAddress] = useState([]);
+     
+
 
 
     const createSeed = async() => {
@@ -18,6 +21,8 @@ export const EthWallet = ({mnemonic}) => {
          const wallet = new Wallet(privateKey);
          setCurrentIndex(currentIndex + 1);
         setAddresses([...addresses, wallet.address]);
+        setPrivateAddress([...privateAddress, wallet.privateKey]);
+        console.log(wallet.privateKey)
     }
 
     return (
@@ -26,9 +31,19 @@ export const EthWallet = ({mnemonic}) => {
                 Add ETH wallet
             </button>
 
-            {addresses.map(p => <div>
-                Eth - {p}
-            </div>)}
+            <div className="eth-public-key">
+                {addresses.map((pub, index) => <div key={index}>
+                    <div>Eth - {pub} </div>
+                </div>)}
+            </div>
+
+            <div className="eth-private-key">
+                {privateAddress.map((priv, index) => <div key={index}>
+                    <div>
+                        Private -{priv}
+                    </div>
+                </div>)}
+            </div>
         </div>
     )
 }

@@ -1,17 +1,11 @@
 
+div.solana-section {
 
-div.eth-section{
-
-
-    .eth-button {
-        background-color: #919191;
-    }
-
-    .eth-public-key {
+    .sol-public-key {
         height: 100px;
         border: 1px solid #919191;
         overflow: hidden;
         overflow-y: scroll;
+        margin: 0px 0px 20px 0px;
     }
-   
 }
