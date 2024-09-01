@@ -10,16 +10,16 @@ export function WalletHeroContent () {
 
     return <div className='wallet-hero-section'>
         <div className='wallet-seed'>
-            <Mnemonic/> 
+            {/* <Mnemonic/>  */}
         </div>
             
-        <div className='wallet-buttons'>
+        {/* <div className='wallet-buttons'>
             <div className='sol-wallet'>
                 <SolanaWallet />
             </div> 
             <div className='eth-wallet'>
                 <EthWallet />
             </div>
-        </div>
+        </div> */}
     </div>
 }
