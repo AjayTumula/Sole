@@ -6,6 +6,43 @@ div.wallet-hero-section {
     align-items: center;
     justify-content: center;
 
+
+    .sole-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+        margin: 30px 0px 0px 0px;
+        padding: 30px;
+        border: 1px solid #919191;
+        border-radius: 12px;
+        height: 40vh;
+        box-shadow: 10px 8px 16px 0px #282626;
+        
+        font-weight: 300;   
+        line-height: 1.1;
+
+        h1 {
+            margin: 50px 0px 0px 0px;
+            font-size: 2rem;
+            font-weight: 500;
+        }
+
+         p {
+            font-size: 1.2rem;
+            // margin: 30px 0px 0px 0px;
+         }
+
+        div.add-wallet-button {
+            .ecw-button {
+                width: 300px;
+            }
+        }
+
+           
+        }
+
     .wallet-seed {
         // border: 1px solid #919191;
         margin: 10px 0px 10px 0px;
