@@ -43,14 +43,14 @@ export function WalletHeroContent () {
     const copytoClipboard = () => {
         const textToCopy = divRef.current.innerText;
         navigator.clipboard.writeText(textToCopy).then(() => {
-            setCopySuccess('Text copied')
+            setCopySuccess('Copied')
         })
         setCopyButton(false);
     }
     
 
     return <div className='wallet-hero-section'>
-
+        <div className='sole-wrapper'>
         { createWallet && (
             <div className='sole-card'>
                 <div className='create-wallet'>
@@ -92,7 +92,7 @@ export function WalletHeroContent () {
                         <button onClick={copytoClipboard}>Copy</button>  <span><i class="fa-solid fa-copy" style={{color: '#040a15'}}></i></span>
                      </div>) :
                      (<div className='copied-text'> 
-                        {copySuccess}
+                        <span><i class="fa-solid fa-circle-check" style={{color: '#00f048'}}></i></span> {copySuccess}
                     </div>)
                 }
                      
@@ -119,5 +119,6 @@ export function WalletHeroContent () {
                 <EthWallet />
             </div>
         </div> */}
+        </div>
     </div>
 }

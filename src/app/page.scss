@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
 
 div.wallet-component {
         font-family: "Input Sans", sans-serif;
@@ -6,18 +8,6 @@ div.wallet-component {
         align-items: center;
         margin-top: 30px;
 
-        div.sole-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 12px;
-            width: 350px;
-            height: 50vh;
-            box-shadow: 10px 8px 16px 0px #282626;
-            font-weight: 300;   
-            line-height: 1.1;
-
-        }
+        
         
 }

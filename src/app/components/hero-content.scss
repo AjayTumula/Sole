@@ -3,39 +3,51 @@
 div.wallet-hero-section {
    
 
+    div.sole-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 12px;
+        width: 350px;
+        // height: 55vh;
+        box-shadow: 10px 8px 16px 0px #282626;
+        font-weight: 300;   
+        line-height: 1.1;
+        font-family: 'Manrope';
+
+    
     .sole-card {
+        // height: 40vh;
        
         div.create-wallet {
             display: flex;
             flex-direction: column;
+            // justify-content: space-between;
             align-items: center;
-            margin-top: 60px;
+            // margin-top: 60px;
 
             div.sole-text {
                 display: flex;
                 flex-direction: column;
+                justify-content: space-between;
                 align-items: center;
+                margin: 30px 0px 0px 0px;
             }
+
+            p {
+                font-size: 1.2rem;
+            }
+    
+            div.add-wallet-button {
+                .ecw-button {
+                    width: 300px;
+                    margin: 120px 0px 40px 0px;
+                }
+            }  
             
         }
-
-        h1 {
-            margin: 50px 0px 0px 0px;
-            font-size: 2rem;
-            font-weight: 500;
-        }
-
-         p {
-            font-size: 1.2rem;
-            
-         }
-
-        div.add-wallet-button {
-            .ecw-button {
-                width: 300px;
-                margin-top: 100px;
-            }
-        }  
+        
     }
 
     div.mnemonic-wrapper {
@@ -61,7 +73,7 @@ div.wallet-hero-section {
         div.disable-icon {
             position: absolute;
             z-index: 2;
-            top: 40%;
+            top: 35%;
             cursor: pointer;
         }
 
@@ -99,6 +111,41 @@ div.wallet-hero-section {
                 filter: none;
             }
         }
+
+
+        div.copy-button {
+            margin-top: 6px;
+            font-weight: 540;
+            font-size: 1rem;
+            padding: 10px;
+
+            &:hover {
+                border: 1px solid #f5f5f5;
+                background-color: #ebebeb;
+                border-radius: 5px;
+            }
+            
+        }
+
+        div.copied-text {
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        div.checkout {
+            margin: 10px 0px 5px 0px;
+            display: flex;
+            align-items: center;
+
+            label {
+                font-weight: 550;
+                font-size: 0.8rem;
+                margin-left: 5px;
+            }
+        }
+
+
     }
+}
 }
 

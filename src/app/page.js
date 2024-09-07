@@ -10,9 +10,9 @@ export default function Home() {
     <div>
     <Navbar/>
     <div className="wallet-component">
-        <div className='sole-wrapper'>
+        
           <WalletHeroContent />
-        </div>
+        
     </div>
    </div>
   );
