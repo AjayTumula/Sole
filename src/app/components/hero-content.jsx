@@ -7,7 +7,7 @@ import Mnemonic from "../create-mnemonic";
 import { SolanaWallet } from './solana-wallet';
 import { EthWallet } from './ethereum-wallet';
 import { generateMnemonic } from 'bip39';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 
 export function WalletHeroContent () {
@@ -15,6 +15,18 @@ export function WalletHeroContent () {
     const [mnemonic, setMnemonic] = useState("");
     const [ createWallet, setCreateWallet] = useState(true);
     const [ openMnemonic, setOpenMnemonic] = useState(false);
+    const [ isHovered, setIsHovered]  = useState(false);
+    const [ copySuccess, setCopySuccess ] = useState('');
+    const [ copyButton, setCopyButton ] = useState(true);
+    const divRef = useRef(null);
+
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    }
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    }
     
     const wordsArray = mnemonic.split(' ');
 
@@ -28,6 +40,14 @@ export function WalletHeroContent () {
         setOpenMnemonic(true);
     }
 
+    const copytoClipboard = () => {
+        const textToCopy = divRef.current.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            setCopySuccess('Text copied')
+        })
+        setCopyButton(false);
+    }
+    
 
     return <div className='wallet-hero-section'>
 
@@ -51,15 +71,45 @@ export function WalletHeroContent () {
                 <h2>Secret Recovery Phrase</h2>
                 <p>This phrase is the ONLY way to recover your wallet. DO NOT
                     share it withanyone!</p>
-                <div className='mnemonic-grid'> 
+               
+                {!isHovered && (
+                    <div className='disable-icon' style={{ display: isHovered ? 'none' : 'block' }}>
+                        <i class="fa-regular fa-eye-slash" style={{color: '#ffffff'}}></i>
+                    </div>
+                )}
+                
+                <div ref={divRef} className={`mnemonic-grid ${isHovered ? 'clear' : 'blurred'}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}> 
                      {wordsArray.map((word, index) => (
                         <div key={index} className='mnemonic-word'>
                             {word}
                         </div>
                      ))}
                 </div>
+                
+                
+                {copyButton ? 
+                    (<div className='copy-button'>
+                        <button onClick={copytoClipboard}>Copy</button>  <span><i class="fa-solid fa-copy" style={{color: '#040a15'}}></i></span>
+                     </div>) :
+                     (<div className='copied-text'> 
+                        {copySuccess}
+                    </div>)
+                }
+                     
+
+                <div className='checkout'>
+                    <input type='checkbox'></input>
+                    <label>I saved my secret recovery Phrase</label>
+                </div>
+
+                <div>
+                    <Button>Continue</Button>  
+                </div>
+                        
             </div>
         )}
+
+       
 
              {/* <div className='wallet-buttons'>
             <div className='sol-wallet'>

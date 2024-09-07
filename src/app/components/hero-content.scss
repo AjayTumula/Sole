@@ -39,13 +39,43 @@ div.wallet-hero-section {
     }
 
     div.mnemonic-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 30px;
+
+        h2 {
+            color: rgb(10, 10, 10);
+            font-size: 1.4rem;
+            font-weight: 550;
+        }
+
+        p {
+            margin: 20px 0px 0px 0px;
+            text-align: center;
+            color: #e8c84c;
+            font-weight: 545;
+        }
+
+        div.disable-icon {
+            position: absolute;
+            z-index: 2;
+            top: 40%;
+            cursor: pointer;
+        }
+
+       
 
         div.mnemonic-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
             gap: 10px; 
             padding: 20px;
-
+            position: relative;
+            transition: filter 0.3s ease;
+            filter: blur(8px);
+          
 
             div.mnemonic-word {
                 padding: 10px;
@@ -53,13 +83,20 @@ div.wallet-hero-section {
                 border-radius: 5px;
                 text-align: center;
                 font-size: 1rem;
-                font-weight: bold;
                 color: #ffffff;
-                background-color: #1B1212;
+                background-color: rgb(10, 10, 10);
+
 
                 &:hover {
                     cursor: pointer;
+                    
                 }
+            } 
+
+
+            &:hover {
+                cursor: pointer;
+                filter: none;
             }
         }
     }
