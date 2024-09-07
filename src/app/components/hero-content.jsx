@@ -18,6 +18,7 @@ export function WalletHeroContent () {
     const [ isHovered, setIsHovered]  = useState(false);
     const [ copySuccess, setCopySuccess ] = useState('');
     const [ copyButton, setCopyButton ] = useState(true);
+    const [ isChecked, setIsChecked ] = useState(false);
     const divRef = useRef(null);
 
     const handleMouseEnter = () => {
@@ -46,6 +47,15 @@ export function WalletHeroContent () {
             setCopySuccess('Copied')
         })
         setCopyButton(false);
+    }
+
+
+    const handleContinueButton = () => {
+        localStorage.setItem('mnemonicWords', JSON.stringify(wordsArray));
+    }
+
+    const handleCheckboxChange = (e) => {
+        setIsChecked(e.target.value);
     }
     
 
@@ -94,16 +104,17 @@ export function WalletHeroContent () {
                      (<div className='copied-text'> 
                         <span><i class="fa-solid fa-circle-check" style={{color: '#00f048'}}></i></span> {copySuccess}
                     </div>)
-                }
-                     
+                }                    
 
                 <div className='checkout'>
-                    <input type='checkbox'></input>
-                    <label>I saved my secret recovery Phrase</label>
+                    <label>
+                        <input type='checkbox' checked={isChecked} onChange={handleCheckboxChange} />
+                            I saved my Secret Recovery Phrase
+                    </label>
                 </div>
 
                 <div>
-                    <Button>Continue</Button>  
+                    <Button onClick={handleContinueButton} disabled={!isChecked} >Continue</Button>  
                 </div>
                         
             </div>
