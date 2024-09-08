@@ -1,19 +1,17 @@
 "use client"
 import './page.scss';
-
-
 import { WalletHeroContent } from './components/hero-content';
-import Navbar from '@/ui/navbar/navbar';
+import SeedProvider from './context/SoleSeedContext';
+
+
 
 export default function Home() {
   return (
-    <div>
-    <Navbar/>
-    <div className="wallet-component">
+   
+      <div className="wallet-component">
         
           <WalletHeroContent />
-        
-    </div>
-   </div>
+      </div>
+    
   );
 }

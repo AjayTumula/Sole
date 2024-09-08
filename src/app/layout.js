@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import './layout.scss'
-import ThemeProvider from "@/ui/themeProvider";
+import Navbar from "@/ui/navbar/navbar";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +18,8 @@ export default function RootLayout({ children }) {
       <script src="https://kit.fontawesome.com/eb380a6b56.js" crossorigin="anonymous"></script>
     </head>
       <body className={inter.className}>
-      {/* <ThemeProvider> */}
-        {children}
-      {/* </ThemeProvider> */}
+          <Navbar />
+          {children}
       </body>
     </html>
   );
