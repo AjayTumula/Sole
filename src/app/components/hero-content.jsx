@@ -4,19 +4,17 @@ import SoleImage from '../../assets/sole.png';
 import Button from '@/ui/button/button';
 import Image from 'next/image';
 import { generateMnemonic } from 'bip39';
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import WalletPage from '../wallets/page';
-import { SeedContext, useSeed } from '@/app/context/SoleSeedContext';
 import { mnemonicToSeed } from "bip39";
 import { derivePath } from "ed25519-hd-key";
 import { Keypair } from "@solana/web3.js";
 import nacl from "tweetnacl";
 import bs58 from "bs58";
+import { Wallet, HDNodeWallet } from "ethers";
 
 export function WalletHeroContent () {
 
-    // const { createSolanaSeed } = useSeed();
 
     const [ mnemonic, setMnemonic ] = useState("");
     const [ createWallet, setCreateWallet] = useState(true);
@@ -25,10 +23,14 @@ export function WalletHeroContent () {
     const [ copySuccess, setCopySuccess ] = useState('');
     const [ copyButton, setCopyButton ] = useState(true);
     const [ isChecked, setIsChecked ] = useState(false);
+    const [ walletShow, setWalletShow ] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [publicKeys, setPublicKeys] = useState([]);
-    const [privateKeys, setPrivateKeys] = useState([]);
-    const [ wallets, setWallets ] = useState(false);
+    const [addresses, setAddresses] = useState([]); 
+    const [privateAddress, setPrivateAddress] = useState([]); 
+    const [publicKeys, setPublicKeys] = useState([]); 
+    const [privateKeys, setPrivateKeys] = useState([]); 
+    const [wallets, setWallets] = useState([]);
+
     
     const divRef = useRef(null);
     const router = useRouter();
@@ -51,6 +53,8 @@ export function WalletHeroContent () {
         const createMnemonic = await generateMnemonic();
         setMnemonic(createMnemonic);
 
+        localStorage.setItem('mnemonic', createMnemonic);
+
         setCreateWallet(false);
         setOpenMnemonic(true);
     }
@@ -69,28 +73,88 @@ export function WalletHeroContent () {
         setIsChecked(e.target.value);
     }
 
- 
 
-    const createSeed = () => {
-            const seed = mnemonicToSeed(mnemonic);
-            const path = `m/44'/501'/${currentIndex}'/0'`;
-            const derivedSeed = derivePath(path, seed.toString("hex")).key;
+    const createSeed = async (blockchainType) => {
+        const seed = await mnemonicToSeed(mnemonic);
+    
+        if (blockchainType === 'ethereum') {
+            const derivationPath = `m/44'/60'/${currentIndex}'/0'`;
+            const hdNode = HDNodeWallet.fromSeed(seed);
+            const child = hdNode.derivePath(derivationPath);
+            const privateKey = child.privateKey;
+            const wallet = new Wallet(privateKey);
+    
+            // Update state and store in localStorage
+            setCurrentIndex(currentIndex + 1);
+            setAddresses([...addresses, wallet.address]);
+            setPrivateAddress([...privateAddress, wallet.privateKey]);
+
+            localStorage.setItem('Eth-Pub-Key', JSON.stringify(wallet.address))
+    
+            // Add new wallet to the wallets array
+            setWallets((prevWallets) => [...prevWallets, { type: 'ethereum', address: wallet.address, privateKey }]);
+    
+        } else if (blockchainType === 'solana') {
+            const derivationPath = `m/44'/501'/${currentIndex}'/0'`;
+            const derivedSeed = derivePath(derivationPath, seed.toString('hex')).key;
             const secret = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
             const keypair = Keypair.fromSecretKey(secret);
+    
+            // Update state and store in localStorage
             setCurrentIndex(currentIndex + 1);
-            setPublicKeys([...publicKeys, keypair.publicKey]); 
-            setPrivateKeys([...privateKeys, bs58.encode(secret)])
-    }
+            setPublicKeys([...publicKeys, keypair.publicKey.toBase58()]);
+            setPrivateKeys([...privateKeys, bs58.encode(secret)]);
 
+            localStorage.setItem('Sol-Pub-Key', JSON.stringify(keypair.publicKey.toBase58()))
+    
+            // Add new wallet to the wallets array
+            setWallets((prevWallets) => [...prevWallets, { type: 'solana', publicKey: keypair.publicKey.toBase58(), privateKey: bs58.encode(secret) }]);
+        }
+    };
+    
 
-    const handleContinueButton = () => {
-        createSeed();
+    const handleContinueButton = async () => {
+       
         localStorage.setItem('mnemonicWords', JSON.stringify(wordsArray));
+
         // router.push('/wallets')
-        setWallets(true);
+        setWalletShow(true);
         setOpenMnemonic(false);
+
+      await createSeed('solana');
+      await createSeed('ethereum')
     }
 
+    const handleAddWallet = (walletType) => {
+        if (walletType === 'solana') {
+            createSeed('solana');
+        } else if (walletType === 'ethereum') {
+            createSeed('ethereum');
+        }
+    };
+
+    const handleDeleteWallet = (index) => {
+        const updatedWallets = [...wallets.slice(0, index), ...wallets.slice(index + 1)];
+        setWallets(updatedWallets);
+    
+    
+        // Update local storage for Solana and Ethereum wallets
+        const solanaWallets = updatedWallets.filter(wallet => wallet.type === 'solana');
+        const ethereumWallets = updatedWallets.filter(wallet => wallet.type === 'ethereum');
+        
+        localStorage.setItem('Sol-Pub-Key', JSON.stringify(solanaWallets.map(w => w.publicKey)));
+        localStorage.setItem('Eth-Pub-Key', JSON.stringify(ethereumWallets.map(w => w.address)));
+    };
+
+    const handleDeleteAllWallets = () => {
+        setWallets([]);
+        localStorage.removeItem('Sol-Pub-Key');
+        localStorage.removeItem('Eth-Pub-Key');
+
+        setWalletShow(false);
+        setIsChecked(false);
+        setCreateWallet(true);
+    };
    
     
 
@@ -156,29 +220,54 @@ export function WalletHeroContent () {
             </div>
         )}
     </div>
-    { wallets && 
-                    <div className='sol'>
-                    <div><button onClick={() => createSeed()}>Add Wallet</button></div>
-                    <div className="sol-public-key">
-                        <h3>Solana Wallet - {currentIndex}</h3>
-                        <div className='sol-pub-key'>
-                            <h4>Public Key - </h4>
-                            <div>
-                                {publicKeys.map((p, index) => <div key={index}>
-                                {p.toBase58()}
-                                </div>)}
+
+    { walletShow &&  <div className='show-wallet'>
+
+                        <div className='add-wallet-section'>
+                            <div className='add-wallet'>
+                                <div><h3>Add Wallet</h3></div>
+                                <select className='drop-down' onChange={(e) => handleAddWallet(e.target.value)}>
+                                    <option value="">Select Wallet Type</option>
+                                    <option value="solana">Solana</option>
+                                    <option value="ethereum">Ethereum</option>
+                                </select>
+                            </div>
+                            <div className='clear-wallet-section'>
+                                
+                                    <div>
+                                        <Button className='clear-wallet' onClick={handleDeleteAllWallets}>Clear Wallets</Button>
+                                    </div>
+                                
                             </div>
                         </div>
-                       
-                        <div className='sol-private-key'>
-                            <h4>Private Key - </h4>
-                            {privateKeys.map((priv, index) => <div key={index}>
-                                {priv}
-                            </div>)}
+
+
+                        <div className='new-wallet'>
+                            {wallets && wallets.map((wallet, index) => (
+                                <div key={index} className={`type-wallet`}>
+                                    <h2>Wallet {index + 1}</h2>
+                                    <div className='keys'>
+                                    {wallet.type === 'solana' ? (
+                                        <>
+                                            <div>
+                                                <h2>{wallet.type.charAt(0).toUpperCase() + wallet.type.slice(1)} Wallet</h2>
+                                                <h3>Public Key</h3>
+                                                {wallet.publicKey}
+                                            </div>
+                                            <div>Private Key - {wallet.privateKey}</div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div>Eth - {wallet.address}</div>
+                                            <div>Private Key - {wallet.privateKey}</div>
+                                        </>
+                                    )}
+                                    </div>
+                                    <button onClick={() => handleDeleteWallet(index)}>Delete Wallet</button>
+                                </div>
+                            ))}
                         </div>
-                    
-                    </div>
-                    </div>
+                </div>
                 }
         </div>
     </div>
