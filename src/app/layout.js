@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
     <head>
-      <script src="https://kit.fontawesome.com/eb380a6b56.js" crossOrigin="anonymous" async></script>
+      <script src="https://kit.fontawesome.com/eb380a6b56.js" crossOrigin="anonymous" defer></script>
     </head>
       <body className={inter.className}>
             <Providers>    
