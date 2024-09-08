@@ -165,7 +165,7 @@ export function WalletHeroContent () {
             <div className='sole-card'>
                 <div className='create-wallet'>
                     <div className='sole-text'>
-                        <Image src={SoleImage} alt='' style={{width: 'auto', height: 'auto'}}/>
+                        <Image src={SoleImage} alt='hero-image' style={{width: 'auto', height: 'auto'}}/>
                         <p>To get started, create a new wallet</p>
                     </div>
 

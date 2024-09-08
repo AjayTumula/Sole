@@ -7,11 +7,10 @@ import ThemeSwitcher from "@/app/themeSwitcher";
 
 
 const Navbar = () => {
-    const {theme} = useTheme();
 
     return (
         <div className="nav-bar-section">
-            <div className="nav-bar-text"><Image src={SoleImage} height={'150'} width={'100'}/></div>
+            <div className="nav-bar-text"><Image alt="nav-image" src={SoleImage} height={'150'} width={'100'}/></div>
             <div className="toggle">
                  <ThemeSwitcher />   
             </div>
