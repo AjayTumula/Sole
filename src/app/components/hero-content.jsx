@@ -1,6 +1,6 @@
 
 import './hero-content.scss';
-import SoleImage from '../../assets/sole.png';
+import SoleImage from '../../assets/sole-2.png';
 import Button from '@/ui/button/button';
 import Image from 'next/image';
 import { generateMnemonic } from 'bip39';
