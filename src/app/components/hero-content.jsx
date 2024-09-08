@@ -70,7 +70,7 @@ export function WalletHeroContent () {
     }
 
     const handleCheckboxChange = (e) => {
-        setIsChecked(e.target.value);
+        setIsChecked(e.target.checked);
     }
 
 
@@ -165,7 +165,7 @@ export function WalletHeroContent () {
             <div className='sole-card'>
                 <div className='create-wallet'>
                     <div className='sole-text'>
-                        <Image src={SoleImage}/>
+                        <Image src={SoleImage} alt='' style={{width: 'auto', height: 'auto'}}/>
                         <p>To get started, create a new wallet</p>
                     </div>
 
@@ -184,7 +184,7 @@ export function WalletHeroContent () {
                
                 {!isHovered && (
                     <div className='disable-icon' style={{ display: isHovered ? 'none' : 'block' }}>
-                        <i class="fa-regular fa-eye-slash" style={{color: '#ffffff'}}></i>
+                        <i className="fa-regular fa-eye-slash" style={{color: '#ffffff'}}></i>
                     </div>
                 )}
                 
@@ -202,15 +202,13 @@ export function WalletHeroContent () {
                         <button onClick={copytoClipboard}>Copy</button>  <span><i class="fa-solid fa-copy" style={{color: '#040a15'}}></i></span>
                      </div>) :
                      (<div className='copied-text'> 
-                        <span><i class="fa-solid fa-circle-check" style={{color: '#00f048'}}></i></span> {copySuccess}
+                        <span><i className="fa-solid fa-circle-check" style={{color: '#00f048'}}></i></span>  {copySuccess}
                     </div>)
                 }                    
 
                 <div className='checkout'>
-                    <label>
-                        <input type='checkbox' checked={isChecked} onChange={handleCheckboxChange} />
-                            I saved my Secret Recovery Phrase
-                    </label>
+                    <input type='checkbox' id='save' checked={isChecked} onChange={handleCheckboxChange} />
+                    <label htmlFor='save'>I saved my Secret Recovery Phrase </label>
                 </div>
 
                 <div>
@@ -245,25 +243,44 @@ export function WalletHeroContent () {
                         <div className='new-wallet'>
                             {wallets && wallets.map((wallet, index) => (
                                 <div key={index} className={`type-wallet`}>
-                                    <h2>Wallet {index + 1}</h2>
+                                    <div className='wallet-head'>
+                                        <h2>Wallet {index + 1}</h2>
+                                        <button onClick={() => handleDeleteWallet(index)}><i className="fa-solid fa-trash" style={{color: '#e43307'}}></i></button>
+                                    </div> 
                                     <div className='keys'>
                                     {wallet.type === 'solana' ? (
                                         <>
                                             <div>
                                                 <h2>{wallet.type.charAt(0).toUpperCase() + wallet.type.slice(1)} Wallet</h2>
-                                                <h3>Public Key</h3>
-                                                {wallet.publicKey}
+                                                <div>
+                                                    <h3>Public Key</h3>
+                                                    <p>{wallet.publicKey}</p>
+                                                </div>
+
+                                                <div>
+                                                    <h3>Private Key</h3>
+                                                    <p>{wallet.privateKey}</p>
+                                                </div>
                                             </div>
-                                            <div>Private Key - {wallet.privateKey}</div>
+                                            
                                         </>
                                     ) : (
                                         <>
-                                            <div>Eth - {wallet.address}</div>
-                                            <div>Private Key - {wallet.privateKey}</div>
+                                            <div>
+                                                <h2>{wallet.type.charAt(0).toUpperCase() + wallet.type.slice(1)} Wallet</h2>
+                                                <div>
+                                                    <h3>Public Key</h3>
+                                                    <p>{wallet.address}</p>
+                                                </div>
+                                                <div>
+                                                    <h3>Private Key</h3>
+                                                    <p>{wallet.privateKey}</p>
+                                                </div>
+                                            </div>
                                         </>
                                     )}
                                     </div>
-                                    <button onClick={() => handleDeleteWallet(index)}>Delete Wallet</button>
+                                    
                                 </div>
                             ))}
                         </div>

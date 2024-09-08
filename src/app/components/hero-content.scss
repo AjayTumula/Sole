@@ -141,6 +141,7 @@ div.wallet-hero-section {
                 font-weight: 550;
                 font-size: 0.8rem;
                 margin-left: 5px;
+                
             }
         }
 
@@ -150,6 +151,7 @@ div.wallet-hero-section {
 
         div.show-wallet {
             font-family: 'Manrope';
+            width: 900px;
             div.add-wallet-section {
                 display: flex;
                 justify-content: space-between;
@@ -186,19 +188,37 @@ div.wallet-hero-section {
             }
 
             div.new-wallet {
-                // width: 600px;
-                // border: 1px solid #ebebeb;
-                // border-radius: 5px;
+              margin: 15px 0px 0px 0px;
 
                 div.type-wallet {
-                    // width: 600px;
-                    
+                  
+                    div.wallet-head {
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 1.4rem;
+                        font-weight: 550;
+                    }
 
                     div.keys {
                         border: 1px solid #ebebeb;
                         border-radius: 5px;
                         margin: 10px 0px 10px 0px;
                         padding: 10px;
+
+                        h2 {
+                            font-size: 1.2rem;
+                            font-weight: 500;
+                        }
+
+                        h3 {
+                            font-weight: 600;
+                            margin: 10px 0px 0px 0px;
+                            color: #161618;
+                        }
+
+                         p {
+                            color: #919191;
+                         }
                     }
                 }
             }
